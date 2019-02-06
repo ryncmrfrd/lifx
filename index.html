@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ryan's Profile</title>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <link rel='stylesheet' href='style.css'>
+    <link rel="stylesheet" href="https://unpkg.com/picnic">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
+</head>
+<body>
+    <div class="buttonContainer">
+        <div style="text-align: center">
+            <button id='toggleAll' class="mainButton" onclick="ToggleLights()">
+                <i id="loader" class="fas fa-sync-alt"></i>
+                <i id="lightOn" class="fas fa-lightbulb"></i>
+                <i id="lightOff" class="far fa-lightbulb"></i>
+            </button>
+            <input placeholder="write a number">
+            <input id="submit" onclick="changeLightColor()" type="submit">
+        </div>
+    </div>
+    <script 
+        src='https://code.jquery.com/jquery-3.3.1.min.js'
+        integrity='sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8='
+        crossorigin='anonymous'></script>
+    <script 
+        src='index.js'></script>
+    <script 
+        src='colortemperature.js'></script>
+</body>
+</html>
