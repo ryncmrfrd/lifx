@@ -1,7 +1,7 @@
 var selector = ''
 var auth = 'c2b237e0d34308de34e17dfb1f43d576822f2b55a298cc550511b42b998b5a9a';
 var currentLightColor = false;
-$('.buttonContainer,i, #colorSliderColor, #colorSliderKelvin').hide();
+$('.buttonContainer,i').hide();
 $(function() {
     $.ajax({
         url: "https://api.lifx.com/v1/lights/all",
@@ -17,13 +17,12 @@ $(function() {
             //params based on whether the light supports color
             currentLightColor = data[0].product.capabilities.has_color;
             if(currentLightColor){
-                $("#colorSliderColor").show();
                 $("#colorSliderColor").val(data[0].color.hue);
                 var rgb = hsvToRgb(data[0].color.hue,100,100);
                 $('body').css('background','rgb('+rgb.r+','+rgb.g+','+rgb.b+')');
             }
             else{
-                $("#colorSliderKelvin").show();
+                $("#colorSliderColor").prop('disabled', true);
                 $("#colorSliderKelvin").val(data[0].color.kelvin);
                 var rgb = colorTemperature2rgb(data[0].color.kelvin);
                 $('body').css('background','rgb('+rgb.red+','+rgb.green+','+rgb.blue+')');
