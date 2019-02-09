@@ -1,7 +1,4 @@
-/*
-    https://github.com/neilbartlett
-    thanks a ton.
-*/
+//color temperature to rgb script
 colorTemperature2rgbUsingTH=colorTemperature2rgbUsingTH=function(kelvin){var temperature=kelvin/100.0;var red,green,blue;if(temperature<=66.0){red=255}else{red=temperature-60.0;red=329.698727446*Math.pow(red,-0.1332047592);if(red<0)red=0;if(red>255)red=255}
 if(temperature<=66.0){green=temperature;green=99.4708025861*Math.log(green)-161.1195681661;if(green<0)green=0;if(green>255)green=255}else{green=temperature-60.0;green=288.1221695283*Math.pow(green,-0.0755148492);if(green<0)green=0;if(green>255)green=255}
 if(temperature>=66.0){blue=255}else{if(temperature<=19.0){blue=0}else{blue=temperature-10;blue=138.5177312231*Math.log(blue)-305.0447927307;if(blue<0)blue=0;if(blue>255)blue=255}}
@@ -12,3 +9,8 @@ if(temperature>=66.0){blue=255}else{if(temperature<=20.0){blue=0}else{blue=tempe
 return{red:Math.round(red),blue:Math.round(blue),green:Math.round(green)}}
 rgb2colorTemperature=rgb2colorTemperature=function(rgb){var temperature,testRGB;var epsilon=0.4;var minTemperature=1000;var maxTemperature=40000;while(maxTemperature-minTemperature>epsilon){temperature=(maxTemperature+minTemperature)/2;testRGB=colorTemperature2rgb(temperature);if((testRGB.blue/testRGB.red)>=(rgb.blue/rgb.red)){maxTemperature=temperature}else{minTemperature=temperature}}
 return Math.round(temperature)}
+//hsv to rgb script
+function rgbToHsl(r,g,b){r/=255,g/=255,b/=255;var max=Math.max(r,g,b),min=Math.min(r,g,b);var h,s,l=(max+min)/2;if(max==min){h=s=0}else{var d=max-min;s=l>0.5?d/(2-max-min):d/(max+min);switch(max){case r:h=(g-b)/d+(g<b?6:0);break;case g:h=(b-r)/d+2;break;case b:h=(r-g)/d+4;break}
+h/=6}return[h,s,l]}function hslToRgb(h,s,l){var r,g,b;if(s==0){r=g=b=l}else{function hue2rgb(p,q,t){if(t<0)t+=1;if(t>1)t-=1;if(t<1/6)return p+(q-p)*6*t;if(t<1/2)return q;if(t<2/3)return p+(q-p)*(2/3-t)*6;return p}var q=l<0.5?l*(1+s):l+s-l*s;var p=2*l-q;r=hue2rgb(p,q,h+1/3);g=hue2rgb(p,q,h);b=hue2rgb(p,q,h-1/3)}
+return[r*255,g*255,b*255]}function rgbToHsv(r,g,b){r/=255,g/=255,b/=255;var max=Math.max(r,g,b),min=Math.min(r,g,b);var h,s,v=max;var d=max-min;s=max==0?0:d/max;if(max==min){h=0}else{switch(max){case r:h=(g-b)/d+(g<b?6:0);break;case g:h=(b-r)/d+2;break;case b:h=(r-g)/d+4;break}
+h/=6}return[h,s,v]}function hsvToRgb(h,s,v){var r,g,b;var i=Math.floor(h*6);var f=h*6-i;var p=v*(1-s);var q=v*(1-f*s);var t=v*(1-(1-f)*s);switch(i%6){case 0:r=v,g=t,b=p;break;case 1:r=q,g=v,b=p;break;case 2:r=p,g=v,b=t;break;case 3:r=p,g=q,b=v;break;case 4:r=t,g=p,b=v;break;case 5:r=v,g=p,b=q;break}return[r*255,g*255,b*255]}

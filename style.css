@@ -7,7 +7,7 @@ body{height: 100vh; width: 100vw; overflow: hidden; transition: background 1s;}
     justify-content: center;
     align-items: center;
 }
-#toggleAll{
+.mainButton{
     display: flex;
     justify-content: center;
     align-items: center;
@@ -22,17 +22,16 @@ body{height: 100vh; width: 100vw; overflow: hidden; transition: background 1s;}
 @keyframes loader {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
-  }
-
+}
 /*color slider*/
-#temperatureSlider {
+.colorSlider {
     -webkit-appearance: none;
     width: 100%;
     height: 5px;
     background: #fff;
     outline: none;
 }
-#temperatureSlider::-webkit-slider-thumb {
+.colorSlider::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
     width: 20px;
@@ -41,11 +40,11 @@ body{height: 100vh; width: 100vw; overflow: hidden; transition: background 1s;}
     border-radius: 50%;
     cursor: pointer;
 }
-#temperatureSlider::-webkit-slider-thumb::before {
+.colorSlider::-webkit-slider-thumb::before {
     content: 'yeet';
 }
 /**/
-#selectLight{
+.selectLight{
     width: 150px;
 }
 /*error popup*/

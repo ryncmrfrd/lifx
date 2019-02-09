@@ -1,117 +1,102 @@
-//important variables
 var selector = ''
 var auth = 'c2b237e0d34308de34e17dfb1f43d576822f2b55a298cc550511b42b998b5a9a';
-var selectedLightType = true;
-//some global functions
-function setBackgroundColor(color){
-    if(color.hue==0){
-        var temperature = colorTemperature2rgb(color.kelvin);
-        $('body').css('background',
-            'rgb('+temperature.red+','+temperature.green+','+temperature.blue+')'
-        );
-    }
-    else{
-        $('body').css('background',
-            'rgb('+hue+')'
-        );
-    }
-}
-function errorWarning(errorText){
-    $('.error').css('top','0')
-    $('.error .label').text(errorText);
-    setTimeout(function(){
-        $('.error').css('top','-100px')
-    }, 10000);
-}
-//sort of "loading" screen
-$('.buttonContainer,i').hide();
-$( document ).ready(function() {
+var currentLightColor = false;
+$('.buttonContainer,i, #colorSliderColor, #colorSliderKelvin').hide();
+$(function() {
     $.ajax({
         url: "https://api.lifx.com/v1/lights/all",
-        headers: {'Authorization': 'Bearer '+auth},
-        success: function(result){
-            $.each(result, function(index) {$('#selectLight').append('<option>'+result[index].label+'</option>');});
-            selector = "label:" + $("#selectLight").val();
-            $('#selectLight').append('<option>All</option>');
-            if(result[0].power=='on'){
-                $('#lightOn').show();
-                $('#lightOff').hide();
+        headers: {'Authorization':'Bearer '+auth},
+        success: function(data){
+            $.each(data, function(index) {
+                if(data[index].connected==true){$('.selectLight').append('<option>'+data[index].label+'</option>');}
+                else{$('.selectLight').append('<option disabled>'+data[index].label+' &#x26A0</option>');}
+            });
+            selector = $('.selectLight').val();
+            if(data[0].power=='on'){$('#lightOn').show();$('#lightOff').hide();}
+            else if(data[0].power=='off'){$('#lightOff').show();$('#lightOn').hide();}
+            //params based on whether the light supports color
+            currentLightColor = data[0].product.capabilities.has_color;
+            if(currentLightColor){
+                $("#colorSliderColor").show();
+                $("#colorSliderColor").val(data[0].color.hue);
+                var rgb = hsvToRgb(data[0].color.hue,100,100);
+                $('body').css('background','rgb('+rgb.r+','+rgb.g+','+rgb.b+')');
             }
             else{
-                $('#lightOn').hide();
-                $('#lightOff').show();
+                $("#colorSliderKelvin").show();
+                $("#colorSliderKelvin").val(data[0].color.kelvin);
+                var rgb = colorTemperature2rgb(data[0].color.kelvin);
+                $('body').css('background','rgb('+rgb.red+','+rgb.green+','+rgb.blue+')');
             }
-            selectedLightType = result[0].product.capabilities.has_color
-            if(result[0].color.hue==0){$('#temperatureSlider').val(result[0].color.kelvin);}
-            else{$('#temperatureSlider').val(result[0].color);}
-            setBackgroundColor(result[0].color);
             $('.buttonContainer').fadeIn();
         }
     });
 });
-//if dropdown changes
-$("#selectLight").change(function(){
-    var dropdown = $("#selectLight").val();
-    if(dropdown == "All"){selector = "all";}
-    else{selector = "label:" + dropdown;}
+
+function selectLight(){
+    if($('.selectLight option').prop("disabled")){
+        
+    }
+    else{
+        console.log('yeeted')
+    }
+}
+
+$('.mainButton').click(function(){
+    $('#loader').show();
+    $('#lightOn,#lightOff').hide();
     $.ajax({
-        url: "https://api.lifx.com/v1/lights/"+selector,
-        headers: {'Authorization': 'Bearer '+auth},
-        success: function(result){
-            //set light type
-            selectedLightType = result[0].product.capabilities.has_color
-            //set slider to current color
-            if(result[0].color.hue==0){$('#temperatureSlider').val(result[0].color.kelvin);}
-            else{$('#temperatureSlider').val(result[0].color);}
-            //set background color
-            setBackgroundColor(result[0].color);
+        url: "https://api.lifx.com/v1/lights/label:"+selector+"/toggle",
+        headers: {'Authorization':'Bearer '+auth},
+        type: 'POST',
+        contentType: 'application/json',
+        success: function(){
+            $.ajax({
+                url: "https://api.lifx.com/v1/lights/label:"+selector,
+                headers: {'Authorization':'Bearer '+auth},
+                success: function(data){
+                    $('#loader').hide();
+                    if(data[0].power=='on'){$('#lightOn').show();$('#lightOff').hide();}
+                    else if(data[0].power=='off'){$('#lightOff').show();$('#lightOn').hide();}
+                }
+            });
         }
     });
-});
-//toggle button
-$("#toggleAll").click(function(){
-    $('#lightOn, #lightOff').hide();
-    $('#loader').show();
+})
+
+
+$('#colorSliderColor').change(function() {
+    var hue = $('#colorSliderKelvin').val();
+    var dataColor = {'color': hue}
     $.ajax({
-        url: "https://api.lifx.com/v1/lights/" + selector + "/toggle",
-        headers: {'Authorization': 'Bearer '+auth},
-        type: 'POST',
+        url: 'https://api.lifx.com/v1/lights/label:'+selector+'/state',
+        headers: {'Authorization':'Bearer '+auth},
+        type: 'PUT',
         dataType: 'json',
         contentType: 'application/json',
         processData: false,
-        success: function() {
-            $.ajax({
-                url: "https://api.lifx.com/v1/lights/all",
-                headers: {'Authorization': 'Bearer '+auth},
-                success: function(result){
-                    $('#loader').hide();
-                    if(result[0].power=='on'){
-                        $('#lightOn').show();
-                        $('#lightOff').hide();
-                    }
-                    else{
-                        $('#lightOn').hide();
-                        $('#lightOff').show();
-                    }
-                }
-            });
-        },
+        data: JSON.stringify(dataColor),
+        error: function(error) {
+            console.log(error);
+        }
     });
 });
-//if color slider changes
-$("#temperatureSlider").change(function(){
-    var value = $("#temperatureSlider").val()
-    var dataColor = {"color": 'kelvin:'+value}
-    var temperature = colorTemperature2rgb(value);
-    $('body').css('background',
-        'rgb('+temperature.red+','+temperature.green+','+temperature.blue+')'
-    );
+
+$('#colorSliderKelvin').change(function() {
+    var kelvin = $('#colorSliderKelvin').val();
+    var dataColor = {'color': 'kelvin:'+kelvin}
     $.ajax({
-        url: "https://api.lifx.com/v1/lights/all/state",
-        headers: {'Authorization': 'Bearer '+auth},
+        url: 'https://api.lifx.com/v1/lights/label:'+selector+'/state',
+        headers: {'Authorization':'Bearer '+auth},
         type: 'PUT',
+        dataType: 'json',
         contentType: 'application/json',
+        processData: false,
         data: JSON.stringify(dataColor),
-        success: function(){}
+        error: function(error) {
+            console.log(error.responseJSON.error);
+        }
     });
+    var rgb = colorTemperature2rgb(kelvin);
+    $('body').css('background','rgb('+rgb.red+','+rgb.green+','+rgb.blue+')');
 });
