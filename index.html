@@ -5,28 +5,32 @@
     <meta name='viewport' content='width=device-width, initial-scale=1.0'>
     <link rel='stylesheet' href='style.css'>
     <link rel="stylesheet" href="https://unpkg.com/picnic">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
+    <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.7.1/css/all.css'>
 </head>
 <body>
-    <div class="error">
-        <span class="label">Error</span>
-    </div>
-    <div class="buttonContainer">
-        <div>
-            <select class="selectLight"></select>
-        </div>
-        <div style="text-align: center">
-            <button class="mainButton">
-                <i id="loader" class="fas fa-sync-alt"></i>
-                <i id="lightOn" class="fas fa-lightbulb"></i>
-                <i id="lightOff" class="far fa-lightbulb"></i>
-            </button>
+    <main class='container'>
+        <div class="error">
+            <span class="label">Error</span>
         </div>
         <div>
-            <input id="colorSliderColor" class="colorSlider" type="range"  min="0" max="360">
-            <input id="colorSliderKelvin" class="colorSlider" type="range"  min="1500" max="9000">
+            <select class="select"></select>
         </div>
-    </div>
+        <div>
+            <div class='toggle'>
+                <button class='icons'>
+                    <i id='on' class='fas fa-lightbulb'></i>
+                    <i id='off' class='far fa-lightbulb' style='display: none;'></i>
+                    <i id="loader" class="fas fa-sync-alt" style='display: none;'></i>
+                </button>
+                <input class='brightness' type='range' min='0' max='100'>
+            </div>
+        </div>
+        <div>
+            <input class='color Kelvin' type='range'  min='1500' max='9000'>
+            <!--<p style='margin: 0; text-align: center;'>Color Hue</p>
+            <input class='color Hue' type='range'  min='0' max='360'>-->
+        </div>
+    </main>
     <script src='https://code.jquery.com/jquery-3.3.1.min.js'></script>
     <script src='app.js'></script>
     <script src='colortemperature.js'></script>

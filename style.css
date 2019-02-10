@@ -1,37 +1,75 @@
-body{height: 100vh; width: 100vw; overflow: hidden; transition: background 1s;}
-/*button*/
-.buttonContainer{
+body{
+    background: #82e2ff;
+    transition: background 2s;
+}
+/*flexbox*/
+.container{
     display: flex;
     flex-direction: column;
     height: 85vh;
     justify-content: center;
     align-items: center;
 }
-.mainButton{
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.container div{
+    width: 150px;
+}
+/*toggle/lightness button*/
+.toggle{
+    display: block;    
+    position: relative;
     height: 150px;
     width: 150px;
-    font-size: 3em;
+    padding: 0;
+    overflow: hidden;
+    border: none;
+    border-radius: 9px;
+    transition: opacity 0.25s;
+    margin: 10px 0;
 }
-/*loading animation*/
-#loader{
-    animation: loader 2s linear infinite; 
+.icons{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    margin: 0; padding: 0 15px;
+    font-size: 50px;
+    color: white;
+    background: transparent;
 }
-@keyframes loader {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+.brightness {
+    -webkit-appearance: none;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    border-radius: 0;
+    margin: 0; padding: 0;
+    transform: rotate(-90deg);
+}
+.brightness::-webkit-slider-runnable-track {
+    background: #07c;
+    width: 100%;
+    height: 100%;
+}
+
+.brightness::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 0;
+    height: 100%;
+    box-shadow: -100vw 0 0 100vw rgba(255, 255, 255, 0.2);
 }
 /*color slider*/
-.colorSlider {
+.color {
+    margin: 10px 0 0 0;
     -webkit-appearance: none;
     width: 100%;
-    height: 5px;
+    height: 10px;
     background: #fff;
     outline: none;
 }
-.colorSlider::-webkit-slider-thumb {
+.color::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
     width: 20px;
@@ -40,24 +78,11 @@ body{height: 100vh; width: 100vw; overflow: hidden; transition: background 1s;}
     border-radius: 50%;
     cursor: pointer;
 }
-.colorSlider::-webkit-slider-thumb::before {
-    content: 'yeet';
+/*loading animation*/
+#loader{
+    animation: loader 2s linear infinite; 
 }
-/**/
-.selectLight{
-    width: 150px;
-}
-/*error popup*/
-.error{
-    display: flex;
-    justify-content: center;
-    position: absolute; top: -100px;
-    width: 100vw;
-    font-size: 50px;
-    transition: top 1s;
-}
-.error span{
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
-    margin: 0;
+@keyframes loader {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
