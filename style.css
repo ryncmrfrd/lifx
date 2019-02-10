@@ -63,6 +63,8 @@ body{
 /*color slider*/
 .color {
     margin: 10px 0 0 0;
+{}
+input[type=range] {
     -webkit-appearance: none;
     width: 100%;
     height: 10px;
