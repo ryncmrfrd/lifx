@@ -1,29 +1,31 @@
 var selector = ''
-var auth = 'c2b237e0d34308de34e17dfb1f43d576822f2b55a298cc550511b42b998b5a9a';
+var auth;
 var currentLightColor = false;
 $('.container,i,.error').hide();
-//$('.error').slideDown('slow');
-$(function() {
-    $.ajax({
-        url: "https://api.lifx.com/v1/lights/all",
-        headers: {'Authorization':'Bearer '+auth},
-        success: function(data){
-            $.each(data, function(index) {
-                if(data[index].connected==true){$('.select').append('<option>'+data[index].label+'</option>');}
-                else{$('.select').append('<option disabled>'+data[index].label+' &#x26A0</option>');}
-            });
-            selector = $('.select').val();
-            if(data[0].power=='on'){$('#on').show();$('#off').hide();}
-            else if(data[0].power=='off'){$('#off').show();$('#on').hide();}
-            //params based on whether the light supports color
-            currentLightColor = data[0].product.capabilities.has_color;
-            $(".Kelvin").val(data[0].color.kelvin);
-            var rgb = colorTemperature2rgb(data[0].color.kelvin);
-            $('body').css('background','rgb('+rgb.red+','+rgb.green+','+rgb.blue+')');
-            $('.container').fadeIn();
-        }
+function startApp(){
+    $('.tokenWrapper').hide();
+    auth = $('#appToken').val();
+        $.ajax({
+            url: "https://api.lifx.com/v1/lights/all",
+            headers: {'Authorization':'Bearer '+auth},
+            success: function(data){
+                $.each(data, function(index) {
+                    if(data[index].connected==true){$('.select').append('<option>'+data[index].label+'</option>');}
+                    else{$('.select').append('<option disabled>'+data[index].label+' &#x26A0</option>');}
+                });
+                selector = $('.select').val();
+                if(data[0].power=='on'){$('#on').show();$('#off').hide();}
+                else if(data[0].power=='off'){$('#off').show();$('#on').hide();}
+                //params based on whether the light supports color
+                currentLightColor = data[0].product.capabilities.has_color;
+                $(".Kelvin").val(data[0].color.kelvin);
+                var rgb = colorTemperature2rgb(data[0].color.kelvin);
+                $('body').css('background','rgb('+rgb.red+','+rgb.green+','+rgb.blue+')');
+                $('.container').fadeIn();
+            }
     });
-});
+}
+
 $('.icons').click(function(){
     $('#loader').show();
     $('#on,#off').hide();
