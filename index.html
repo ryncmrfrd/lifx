@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <head>
-    <title>Ryan's Profile</title>
+    <title>Lifx for Web</title>
     <meta charset='UTF-8'>
     <meta name='viewport' content='width=device-width, initial-scale=1.0'>
     <link rel='stylesheet' href='style.css'>
@@ -8,6 +8,13 @@
     <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.7.1/css/all.css'>
 </head>
 <body>
+    <section class='tokenWrapper'>
+        <div>
+            <h2 style='padding: 10px;'>Personal Auth Token</h2>
+            <input type='text' id='appToken'>
+            <button onclick='if(document.getElementById("appToken").value){startApp()}else{alert("Please provide an auth token.")}'>Enter the app ...</button>
+        </div>
+    </section>
     <main class='container'>
         <div class="error">
             <span class="label">Error</span>
@@ -27,8 +34,7 @@
         </div>
         <div>
             <input class='color Kelvin' type='range'  min='1500' max='9000'>
-            <!--<p style='margin: 0; text-align: center;'>Color Hue</p>
-            <input class='color Hue' type='range'  min='0' max='360'>-->
+            <input class='color Hue' type='range'  min='0' max='360'>
         </div>
     </main>
     <script src='https://code.jquery.com/jquery-3.3.1.min.js'></script>
