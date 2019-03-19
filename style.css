@@ -2,6 +2,20 @@ body{
     background: #82e2ff;
     transition: background 2s;
 }
+/* login wrapper */
+.tokenWrapper{
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.tokenWrapper div{
+    margin-top: 30vh;
+}
+.tokenWrapper div button{
+    display: block;
+    margin: 10px auto;
+}
 /*flexbox*/
 .container{
     display: flex;
