@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<head>
+    <title>Lifx for Web</title>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <link rel='stylesheet' href='style.css'>
+    <link rel="stylesheet" href="https://unpkg.com/picnic">
+    <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.7.1/css/all.css'>
+</head>
+<body>
+    <script>
+        var auth = localStorage.getItem('lifxAuthKey');
+        if(auth){
+            StartApp(auth);
+        } else{
+            window.location.href = '/'
+        }
+    </script>
+    <button onclick=''>Logout</button>
+    <main class='container'>
+        <div class="error">
+            <span class="label">Error</span>
+        </div>
+        <div>
+            <select class="select"></select>
+        </div>
+        <div>
+            <div class='toggle'>
+                <button class='icons'>
+                    <i id='on' class='fas fa-lightbulb'></i>
+                    <i id='off' class='far fa-lightbulb' style='display: none;'></i>
+                    <i id="loader" class="fas fa-sync-alt" style='display: none;'></i>
+                </button>
+                <input class='brightness' type='range' min='0' max='100'>
+            </div>
+        </div>
+        <div>
+            <input class='color Kelvin' type='range'  min='1500' max='9000'>
+        </div>
+    </main>
+    <script src='https://code.jquery.com/jquery-3.3.1.min.js'></script>
+    <script src='app.js'></script>
+    <script src='colortemperature.js'></script>
+</body>
+</html>
