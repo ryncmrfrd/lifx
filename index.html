@@ -1,85 +1,26 @@
 <!DOCTYPE html>
 <head>
-    <title>Login | Lifx for Web</title>
+    <title>Login | Lifx</title>
     <meta charset='UTF-8'>
     <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <link rel="stylesheet" href="css/style.css">
 </head>
-<style>
-    html{
-        font-family: sans-serif;
-        background: #f7f7f7
-    }
-    header{
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        width: 100%;
-        margin-top: 20vh;
-    }
-    header *{
-        margin: 5px;
-        text-align: center;
-    }
-    .header-title{
-        font-size: 7em;
-    }
-    main{
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        width: 100%;
-        height: 10vh;
-    }
-    .form{
-        width: 300px;
-    }
-    input{
-        width: 250px;
-    }
-    button{
-        width: 50px;
-    }
-    .lifx{
-        position: relative;
-        top: 8.3px;
-        display: inline-block;
-        background: url('bin/img/lifx.svg') bottom/cover;
-        background-repeat: no-repeat;
-        width: 2.9em;
-        height: 1em;
-    }
-</style>
 <body>
-    <!--
-        c2b237e0d34308de34e17dfb1f43d576822f2b55a298cc550511b42b998b5a9a
-    -->
-    <header>
-        <h1 class='header-title'>Login</h1>
-        <p>Unfortunately,<span class='lifx'></span>won't let me use OAuth.<br>
-           So you have to use a personal auth token.
-        </p>
+    
+    <header class='login-header'>
+        <h1 class='login-header-title'>Login</h1>
+        <p>Unfortunately,<span class='login-inline-logo'></span>won't let me use OAuth.<br>So you have to use a personal auth token.</p>
     </header>
-    <main>
-        <div class='form'>
+    <main class='login-main'>
+        <div class='login-form'>
             <input type="text" id="appToken">
             <button type="submit" onclick="submit()">Go</button>
         </div>
     </main>
+    <footer class='login-footer'>
+        <p>Built by <a href="https://ryncmrfrd.me">Ryan Comerford</a></p>
+    </footer>
 
-    <script>
-        if(typeof(Storage)!=="undefined"){if(localStorage.getItem('lifxAuthKey')){window.location.href='app.html'}}
-        else{document.write('<pre>Unfortunately, localstorage support is required to access this site</pre>')}
-        function submit(){
-            var val=document.getElementById('appToken').value;
-            if(!val){
-                alert('please enter a code');
-            } else{
-                localStorage.setItem('lifxAuthKey',val);
-                window.location.href='app.html'
-            }
-        }
-    </script>
+    <script>if(typeof(Storage)!=="undefined"){if(localStorage.getItem('lifxAuthKey')){window.location.href='app.html'}}else{document.write('<pre>Unfortunately, localstorage support is required to access this site</pre>')}function submit(){var val=document.getElementById('appToken').value;if(!val){alert('Please enter a code before continuing')}else{localStorage.setItem('lifxAuthKey',val);window.location.href='app.html'}}</script>
 </body>
 </html>
