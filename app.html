@@ -7,14 +7,10 @@
     <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.7.1/css/all.css'>
 </head>
 <body>
-    <button class='logout' onclick='localStorage.setItem("lifxAuthKey","");window.location.href="index.html"' style='display: none;'>
+    <button class='logout' onclick='localStorage.setItem("lifxAuthKey","");window.location.href="/"' style='display: none;'>
         <span class='fas fa-user-circle'></span>Logout
     </button>
 
-    <!--
-        c2b237e0d34308de34e17dfb1f43d576822f2b55a298cc550511b42b998b5a9a
-    -->
-    
     <main class='app-container' style='display: none;'>
         <select class="app-select"></select>
         <section class='app-toggle'>
@@ -35,7 +31,7 @@
     <script src='https://code.jquery.com/jquery-3.3.1.min.js'></script>
     <script src='js/api.js'></script>
     <script src='js/app.js'></script>
-    <script>var auth=localStorage.getItem('lifxAuthKey');if(auth){startApp(auth);}else{window.location.href='index.html'}</script>
+    <script>var auth=localStorage.getItem('lifxAuthKey');if(auth){startApp(auth);}else{window.location.href='/'}</script>
     <script src='js/colortemperature.js'></script>
 </body>
 </html>
