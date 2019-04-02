@@ -1,39 +1,46 @@
 <!DOCTYPE html>
 <head>
-    <title>Login | Lifx</title>
+    <title>Lifx for Web</title>
     <meta charset='UTF-8'>
     <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel='stylesheet' href='css/style.css'>
+    <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.7.1/css/all.css'>
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
 </head>
 <body>
+    <button class='logout' style='display: none;'>
+        <span class='fas fa-user-circle'></span>Logout
+    </button>
     
-    <header class='login-header'>
-        <h1 class='login-header-title'>Login</h1>
-        <p>Unfortunately,<span class='login-inline-logo'></span>won't let me use OAuth.<br>So you have to use a personal auth token.</p>
-    </header>
-    <main class='login-main'>
-        <div class='login-form'>
-            <input type="text" id="appToken">
-            <button type="submit" onclick="submit()">Go</button>
-        </div>
+    <main class='app-container' style='display: none;'>
+        <select class="app-select"></select>
+        <section class='app-toggle'>
+            <button class='toggle-icons'>
+                <i id='on' class='fas fa-lightbulb'></i>
+                <i id='off' class='far fa-lightbulb'></i>
+                <i id='loader' class='fas fa-sync-alt'></i>
+            </button>
+            <input class='brightness' type='range' min='0' max='100'>
+        </section>
+        <section>
+            <input class='app-slider Kelvin' type='range'  min='1500' max='9000'>
+            <input class='app-slider Color' type='range'  min='0' max='360'>
+        </section>
+
     </main>
-    <footer class='login-footer'>
-        <p>Built by <a href="https://ryncmrfrd.me">Ryan Comerford</a></p>
-    </footer>
 
+    <script src='https://code.jquery.com/jquery-3.3.1.min.js'></script>
+    <script src='js/app.js'></script>
     <script>
-    if(typeof(Storage)!=="undefined"){
-        var storedKey = localStorage.getItem('lifxAuthKey');
-        if(!storedKey){}
-        else{
-            window.location.href='app'
+        var auth=localStorage.getItem('lifxAuthKey');
+        if(!auth){
+            window.location.href = 'login'
         }
-    }else{document.write('<pre>Unfortunately, localstorage support is required to access this site</pre>')}function submit(){var val=document.getElementById('appToken').value;if(!val){alert('Please enter a code before continuing')}else{localStorage.setItem('lifxAuthKey',val);window.location.href='app'}}</script>
-
-
-    <script>
-        
+        else{
+            console.log(auth)
+            startApp(auth);
+        }
     </script>
+    <script src='js/colortemperature.js'></script>
 </body>
 </html>

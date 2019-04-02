@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<head>
+    <title>Login | Lifx for Web</title>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+</head>
+<body>
+    <header class='login-header'>
+        <h1 class='login-header-title'>Login</h1>
+        <p>Unfortunately,<span class='login-inline-logo'></span>won't let me use OAuth.<br>So you have to use a personal auth token.</p>
+    </header>
+    <main class='login-main'>
+        <form onsubmit="submit()" id='form' class='login-form'>
+            <input type="text" id="appToken">
+            <button type="submit">Go</button>
+        </form>
+    </main>
+    <footer class='login-footer'>
+        <p>Built by <a href="https://ryncmrfrd.me">Ryan Comerford</a></p>
+    </footer>
+    <script>
+    var authCode=localStorage.getItem('lifxAuthKey');
+    if(authCode > 1){window.location.href='/'}
+    else{
+        document.getElementById("form").addEventListener('submit', function(e){
+            e.preventDefault();
+            var val=document.getElementById('appToken').value;
+            if(!val){
+                alert('Please enter a code before continuing')
+            } else{
+                localStorage.setItem('lifxAuthKey',val);
+                window.location.href='/';
+            }
+        });
+    }
+    </script>
+</body>
+</html>
