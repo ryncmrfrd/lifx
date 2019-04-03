@@ -1,46 +1,34 @@
 <!DOCTYPE html>
 <head>
-    <title>Lifx for Web</title>
-    <meta charset='UTF-8'>
-    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-    <link rel='stylesheet' href='css/style.css'>
-    <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.7.1/css/all.css'>
-    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+	<title>Lifx for Web</title>
+	<meta charset='UTF-8'>
+	<meta name='viewport' content='width=device-width, initial-scale=1.0'>
+	<link rel='stylesheet' href='css/style.css'>
+	<link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.7.1/css/all.css'>
+	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
 </head>
 <body>
-    <button class='logout' style='display: none;'>
-        <span class='fas fa-user-circle'></span>Logout
-    </button>
-    
-    <main class='app-container' style='display: none;'>
-        <select class="app-select"></select>
-        <section class='app-toggle'>
-            <button class='toggle-icons'>
-                <i id='on' class='fas fa-lightbulb'></i>
-                <i id='off' class='far fa-lightbulb'></i>
-                <i id='loader' class='fas fa-sync-alt'></i>
-            </button>
-            <input class='brightness' type='range' min='0' max='100'>
-        </section>
-        <section>
-            <input class='app-slider Kelvin' type='range'  min='1500' max='9000'>
-            <input class='app-slider Color' type='range'  min='0' max='360'>
-        </section>
-
+	<button class='logout' style='display: none;'>
+	<span class='fas fa-user-circle'></span>Logout
+	</button>
+	<main class='app-container' style='display: none;'>
+		<select class="app-select"></select>
+		<section class='app-toggle'>
+			<button class='toggle-icons'>
+			<i id='on' class='fas fa-lightbulb'></i>
+			<i id='off' class='far fa-lightbulb'></i>
+			<i id='loader' class='fas fa-sync-alt'></i>
+			</button>
+			<input class='brightness' type='range' min='0' max='100'>
+		</section>
+		<section>
+			<input class='app-slider Kelvin' type='range'  min='1500' max='9000'>
+			<input class='app-slider Color' type='range'  min='0' max='360'>
+		</section>
     </main>
-
-    <script src='https://code.jquery.com/jquery-3.3.1.min.js'></script>
-    <script src='js/app.js'></script>
-    <script>
-        var auth=localStorage.getItem('lifxAuthKey');
-        if(!auth){
-            window.location.href = 'login'
-        }
-        else{
-            console.log(auth)
-            startApp(auth);
-        }
-    </script>
-    <script src='js/colortemperature.js'></script>
+    
+	<script src='https://code.jquery.com/jquery-3.3.1.min.js'></script>
+	<script src='js/app.js'></script>
+	<script>var auth=localStorage.getItem('lifxAuthKey');if(!auth){window.location.href='login'}else{console.log(auth);startApp(auth)}</script>
 </body>
 </html>
