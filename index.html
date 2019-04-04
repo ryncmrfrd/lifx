@@ -3,30 +3,56 @@
 	<title>Lifx for Web</title>
 	<meta charset='UTF-8'>
 	<meta name='viewport' content='width=device-width, initial-scale=1.0'>
-	<link rel='stylesheet' href='css/style.css'>
-	<link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.7.1/css/all.css'>
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+	<link rel="stylesheet" href="css/bulma.min.css">
+	<link rel="stylesheet" href="css/bulma-slider.min.css">
+	<link rel="stylesheet" href="css/style.css">
 	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
 </head>
 <body>
-	<button class='logout' style='display: none;'>
-	<span class='fas fa-user-circle'></span>Logout
-	</button>
-	<main class='app-container' style='display: none;'>
-		<select class="app-select"></select>
-		<section class='app-toggle'>
-			<button class='toggle-icons'>
-			<i id='on' class='fas fa-lightbulb'></i>
-			<i id='off' class='far fa-lightbulb'></i>
-			<i id='loader' class='fas fa-sync-alt'></i>
+
+	<section id='noLights' class="hero is-danger" style='display: none;'>
+		<div class="hero-body">
+			<div class="container">
+				<h1 class="title">
+					No Lights Found
+				</h1>
+				<h2 class="subtitle">
+					Maybe try a reload, or check if they're switched on at the wall.<br>
+					If you think some of the code is wrong <a class='button is-text' href='https://github.com/ryncmrfrd/lifx/issues/new'>add a Github issue</a>.
+				</h2>
+			</div>
+		</div>
+	</section>
+
+	<main class='columns is-mobile is-centered is-vcentered' style='display: none;'>
+		<div class="colums has-text-centered">
+
+			<div class="select is-info is-fullwidth">
+				<select id='select'>
+					
+				</select>
+			</div>
+			<a id='toggle' class='button is-info is-size-1'>
+				<i id="on" class="fas fa-lightbulb"></i>
+				<i id="off" class="far fa-lightbulb"></i>
+				<i id="loader" class="fas fa-sync-alt"></i>
+			</a>
+			<div id='sliders' class="container is-fullwidth">
+				<input id='kelvin' class='slider is-medium is-fullwidth is-circle' min='1500' max='9000' type='range'>
+				<input id='color' class='slider is-medium is-fullwidth is-circle' min='0' max='360' type='range'>
+			</div>
+
+		</div>
+	</main>
+
+	<footer class='has-text-right' style='display: none;'>
+			<button id='logoutBtn' class="button is-info">
+				<span class="icon"><i class="fas fa-user"></i></span>
+				<span>Logout</span>
 			</button>
-			<input class='brightness' type='range' min='0' max='100'>
-		</section>
-		<section>
-			<input class='app-slider Kelvin' type='range'  min='1500' max='9000'>
-			<input class='app-slider Color' type='range'  min='0' max='360'>
-		</section>
-    </main>
-    
+		</footer>
+
 	<script src='https://code.jquery.com/jquery-3.3.1.min.js'></script>
 	<script src='js/app.js'></script>
 	<script>var auth=localStorage.getItem('lifxAuthKey');if(!auth){window.location.href='login'}else{console.log(auth);startApp(auth)}</script>

@@ -3,24 +3,32 @@
 	<title>Login | Lifx for Web</title>
 	<meta charset='UTF-8'>
 	<meta name='viewport' content='width=device-width, initial-scale=1.0'>
-	<link rel="stylesheet" href="css/style.css">
+		<link rel="stylesheet" href="css/bulma.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
 	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
 </head>
-<body>
-	<header class='login-header'>
-		<h1 class='login-header-title'>Login</h1>
-		<p>Unfortunately,<span class='login-inline-logo'></span>won't let me use OAuth.<br>So you have to use a personal auth token.</p>
-	</header>
-	<main class='login-main'>
-		<form id='form' class='login-form'>
-			<input type="text" id="appToken">
-			<button type="submit">Go</button>
-		</form>
-	</main>
-	<footer class='login-footer'>
-		<p>Built by <a href="https://ryncmrfrd.me">Ryan Comerford</a></p>
-    </footer>
-    
-	<script>var authCode=localStorage.getItem('lifxAuthKey');if(authCode>1){window.location.href='/'}else{document.getElementById("form").addEventListener('submit',function(e){e.preventDefault();var val=document.getElementById('appToken').value;if(!val){alert('Please enter a code before continuing')}else{localStorage.setItem('lifxAuthKey',val);window.location.href='/'}})}</script>
+<style>.lifx{position: relative;top: 3px;display: inline-block;background: url(img/lifx.svg) top/cover;background-repeat: no-repeat;width: 2.9em;height: 1em;}</style>
+<body class='columns is-mobile is-centered is-vcentered' style='height: 80vh'>
+    <div class="column is-three-quarters-mobile is-half-tablet is-one-third-desktop is-one-quarter-widescreen"> 
+        <h1 class="title is-size-1 is-spaced">Login</h1>
+        <p class="subtitle is-size-6">
+            Unfortunately, <span class='lifx'></span> won't let me use OAuth, so you have manually generate an auth token. If you're confused, take a look at <a target='_blank' href='https://github.com/ryncmrfrd/lifx#use'>the readme</a>.
+        </p>
+        <form id='form' class="field is-grouped">
+            <div class="control">
+                <div class="field">
+                    <div class="control has-icons-left">
+                      <input id='appToken' class="input" type="text" placeholder="Auth Token">
+                      <span class="icon is-small is-left"><i class="fas fa-key"></i></span>
+                    </div>
+								</div>
+								<p id='help' class="help is-danger" style='opacity: 0;'>Enter a code before continuing</p>
+            </div>
+            <div class="control">
+              <button class="button is-link" type='submit'>Go</button>
+            </div> 
+        </form>
+    </div>
+	<script>var authCode=localStorage.getItem('lifxAuthKey');if(authCode>1){window.location.href='/'}else{document.getElementById("form").addEventListener('submit',function(e){e.preventDefault();var val=document.getElementById('appToken').value;if(!val){document.getElementById('help').style.opacity=1;}else{localStorage.setItem('lifxAuthKey',val);window.location.href='/'}})}</script>
 </body>
 </html>

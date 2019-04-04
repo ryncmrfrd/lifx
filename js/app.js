@@ -88,36 +88,36 @@ var selector,
     currentLight_HadColor;
 
 function startApp(auth){
-    $('i').hide();
+    $('#toggle i').hide();
     lifx.start(auth, function(data){
 
         //
-        $('.logout').click(function(){
+        $('#logoutBtn').click(function(){
             localStorage.setItem("lifxAuthKey","");
             window.location.href="login"
         });
 
         //add lights to dropdown
-        $('.app-select').empty()
+        $('#select').empty()
         $.each(data, function(i) {
             if(data[i].connected==true){
-                $('.app-select').append('<option value='+data[i].id+' >'+data[i].label+'</option>');
+                $('#select').append('<option value='+data[i].id+' >'+data[i].label+'</option>');
             }
             else{
-                $('.app-select').append('<option disabled>'+data[i].label+' &#x26A0</option>');
+                $('#select').append('<option disabled>'+data[i].label+' &#x26A0</option>');
             }
         });
-        selector = $('.app-select').val();
+        selector = $('#select').val();
 
         //if first light has color capabilities
         currentLight_HadColor = data[0].product.capabilities.has_color;
         if(currentLight_HadColor){
-            $('.Kelvin').val(data[0].color.kelvin);
-            $('.Color').val(data[0].color.kelvin);
+            $('#kelvin').val(data[0].color.kelvin);
+            $('#color').val(data[0].color.kelvin);
         }
         else{
-            $('.Kelvin').val(data[0].color.kelvin);
-            $('.Color').hide();
+            $('#kelvin').val(data[0].color.kelvin);
+            $('#color').hide();
         }
 
         //if first light is already on
@@ -130,14 +130,18 @@ function startApp(auth){
             $('#on').hide();
         }
 
-        //set brightness
-        var brightness = Number(data[0].brightness)*100;
-        $('.brightness').val(brightness);
+        var anyLightsAreOn = [];
+        for(i = 0; data.length > i; i++){
+            anyLightsAreOn.push(i)
+        }
+        if(!anyLightsAreOn){
+            $('#noLights').fadeIn();
+        }
         
         //set current background color
         var rgb = colorTemperature2rgb(data[0].color.kelvin);
         $('body').css('background','rgb('+rgb.red+','+rgb.green+','+rgb.blue+')'); 
-        $('.app-container, .logout').fadeIn();
+        $('footer, main').fadeIn();
 
     });
 }
@@ -158,21 +162,18 @@ function updateLights(sel){
         //if first light has color capabilities
         currentLight_HadColor = data[0].product.capabilities.has_color;
 
-        $('.Kelvin').val(data[0].color.kelvin);
-        $('.Color').val(data[0].color.kelvin);
+        $('#kelvin').val(data[0].color.kelvin);
+        $('#color').val(data[0].color.kelvin);
 
 
         if(currentLight_HadColor){
-            $('.Color, .Kelvin').fadeIn();
+            $('#color, #kelvin').fadeIn();
         }
         else{
-            $('.Kelvin').fadeIn();
-            $('.Color').fadeOut();
+            $('#kelvin').fadeIn();
+            $('#color').fadeOut();
         }
 
-        //set brightness
-        var brightness = Number(data[0].brightness)*100;
-        $(".brightness").val(brightness);
         //set current background color
         var rgb = colorTemperature2rgb(data[0].color.kelvin);
         $('body').css('background','rgb('+rgb.red+','+rgb.green+','+rgb.blue+')');
@@ -185,13 +186,13 @@ function updateLights(sel){
 */
 
 //on change selector
-$('.app-select').change(function() {
-    selector = $('.app-select').val();
-    updateLights($('.app-select').val());
+$('#select').change(function() {
+    selector = $('#select').val();
+    updateLights($('#select').val());
 });
 
 //on click toggle button
-$('.toggle-icons').click(function(){
+$('#toggle').click(function(){
     var isOn = $('#on').is(":visible");
     $('#loader').show(); $('#on,#off').hide();
     lifx.toggle(selector, function(){
@@ -206,8 +207,8 @@ $('.toggle-icons').click(function(){
 })
 
 //on change kelvin slider
-$('.Kelvin').change(function() {
-    var dataColor = {'color': 'kelvin:'+$('.Kelvin').val()}, kelvin = $('.Kelvin').val();
+$('#kelvin').change(function() {
+    var dataColor = {'color': 'kelvin:'+$('#kelvin').val()}, kelvin = $('#kelvin').val();
     lifx.changeState(selector, dataColor, function(){
         var rgb = colorTemperature2rgb(kelvin);
         $('body').css('background','rgb('+rgb.red+','+rgb.green+','+rgb.blue+')');
@@ -215,22 +216,14 @@ $('.Kelvin').change(function() {
 });
 
 //on change color slider
-$('.Color').change(function() {
+$('#color').change(function() {
     console.log('changed color')
 });
 
 //show color value while dragging slider
-$(document).on('input', '.Kelvin', function() {
-    var lifxval = $('.Kelvin').val(), klvnrgb = colorTemperature2rgb(lifxval);
+$(document).on('input', '#kelvin', function() {
+    var lifxval = $('#kelvin').val(), klvnrgb = colorTemperature2rgb(lifxval);
     $('body').css('background','rgb('+klvnrgb.red+','+klvnrgb.green+','+klvnrgb.blue+')');
-});
-
-//change brightness
-$('.brightness').change(function() {
-    lifx.changeState(selector, {
-        'brightness': $('.brightness').val()/100,
-        'power': 'on'
-    })
 });
 
 function colorTemperature2rgb(kelvin) {
