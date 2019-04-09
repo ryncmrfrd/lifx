@@ -109,45 +109,32 @@ function startApp(auth){
         });
         selector = $('#select').val();
 
-        //if first light has color capabilities
-        currentLight_HadColor = data[0].product.capabilities.has_color;
-        if(currentLight_HadColor){
-            $('#kelvin').val(data[0].color.kelvin);
-            $('#color').val(data[0].color.kelvin);
-        }
-        else{
-            $('#kelvin').val(data[0].color.kelvin);
-            $('#color').hide();
-        }
 
-        //if first light is already on
-        if(data[0].power=='on'){
-            $('#on').show();
-            $('#off').hide();
-        }
-        else{
-            $('#off').show();
-            $('#on').hide();
-        }
-
-        var anyLightsAreOn = [];
-        for(i = 0; data.length > i; i++){
-            anyLightsAreOn.push(i)
-        }
-        if(!anyLightsAreOn){
+        if($("#select")[0].selectedIndex <= 0){
             $('#noLights').fadeIn();
+            $('#toggle').prop( "disabled", true );
         }
-        
-        //set current background color
-        var rgb = colorTemperature2rgb(data[0].color.kelvin);
-        $('body').css('background','rgb('+rgb.red+','+rgb.green+','+rgb.blue+')'); 
+
+        updateLights('',data)
+
         $('footer, main').fadeIn();
 
     });
 }
 
-function updateLights(sel){
-    lifx.get('id:'+sel, function(data){
+function updateLights(sel,data){
+
+
+    if(data&&!sel){
+        console.log('ugh')
+        lifx.get('id:'+sel,update(data));
+    }
+    else{
+        console.log('ugh')
+        update()
+    }
+
+    function update(){
         $('i').hide();
         //if first light is already on
         if(data[0].power=='on'){
@@ -177,7 +164,7 @@ function updateLights(sel){
         //set current background color
         var rgb = colorTemperature2rgb(data[0].color.kelvin);
         $('body').css('background','rgb('+rgb.red+','+rgb.green+','+rgb.blue+')');
-    })
+    }
 }
 
 
