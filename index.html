@@ -6,11 +6,10 @@
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
 	<link rel="stylesheet" href="css/bulma.min.css">
 	<link rel="stylesheet" href="css/bulma-slider.min.css">
-	<link rel="stylesheet" href="css/style.css">
 	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
 </head>
+<style>body{height:100%!important;width:100vw!important;transition:background 2s}::-webkit-scrollbar{display:none}#noLights{width:100vw;position:absolute;top:0}#logIssue{color:#000}main{height:93vh}main div{width:150px}div.select{margin-bottom:10px}#toggle{min-width:150px;height:150px}#loader{animation:loader 1.5s infinite linear}#sliders{max-width:150px}#sliders #kelvin::-webkit-slider-runnable-track{background:linear-gradient(to right,#ff6b00,#ff8b00,#ffa247,#ffb46c,#ffc38a,#ffd0a4,#ffdbb9,#ffe4cd,#ffecdf,#fff3ef,#fffafe,#fff3ff,#eaedff,#e1e8ff,#dae4ff,#d5e1ff)}#sliders #color::-webkit-slider-runnable-track{background:-webkit-linear-gradient(left,hsla(0,100%,50%,1),hsla(10,100%,50%,1),hsla(20,100%,50%,1),hsla(30,100%,50%,1),hsla(40,100%,50%,1),hsla(50,100%,50%,1),hsla(60,100%,50%,1),hsla(70,100%,50%,1),hsla(80,100%,50%,1),hsla(90,100%,50%,1),hsla(100,100%,50%,1),hsla(110,100%,50%,1),hsla(120,100%,50%,1),hsla(130,100%,50%,1),hsla(140,100%,50%,1),hsla(150,100%,50%,1),hsla(160,100%,50%,1),hsla(170,100%,50%,1),hsla(180,100%,50%,1),hsla(190,100%,50%,1),hsla(200,100%,50%,1),hsla(210,100%,50%,1),hsla(220,100%,50%,1),hsla(230,100%,50%,1),hsla(240,100%,50%,1),hsla(250,100%,50%,1),hsla(260,100%,50%,1),hsla(270,100%,50%,1),hsla(280,100%,50%,1),hsla(290,100%,50%,1),hsla(300,100%,50%,1),hsla(310,100%,50%,1),hsla(320,100%,50%,1),hsla(330,100%,50%,1),hsla(340,100%,50%,1),hsla(350,100%,50%,1),hsla(360,100%,50%,1))}footer{height:7vh}#logoutBtn{position:relative;top:22px;right:10px}@keyframes loader{from{transform:rotate(0)}to{transform:rotate(360deg)}}</style>
 <body>
-
 	<section id='noLights' class="hero is-danger" style='display: none;'>
 		<div class="hero-body">
 			<div class="container">
@@ -19,42 +18,36 @@
 				</h1>
 				<h2 class="subtitle">
 					Maybe try a reload, or check if they're switched on at the wall.<br>
-					If you think some of the code is wrong <a class='button is-text' href='https://github.com/ryncmrfrd/lifx/issues/new'>add a Github issue</a>.
+					If you think some of the code is wrong <a id='logIssue' href='https://github.com/ryncmrfrd/lifx/issues/new'>log a Github issue.</a>
 				</h2>
 			</div>
 		</div>
 	</section>
-
 	<main class='columns is-mobile is-centered is-vcentered' style='display: none;'>
 		<div class="colums has-text-centered">
-
 			<div class="select is-info is-fullwidth">
 				<select id='select'>
-					
 				</select>
 			</div>
 			<a id='toggle' class='button is-info is-size-1'>
-				<i id="on" class="fas fa-lightbulb"></i>
-				<i id="off" class="far fa-lightbulb"></i>
-				<i id="loader" class="fas fa-sync-alt"></i>
+			<i id="on" class="fas fa-lightbulb"></i>
+			<i id="off" class="far fa-lightbulb"></i>
+			<i id="loader" class="fas fa-sync-alt"></i>
 			</a>
 			<div id='sliders' class="container is-fullwidth">
 				<input id='kelvin' class='slider is-medium is-fullwidth is-circle' min='1500' max='9000' type='range'>
 				<input id='color' class='slider is-medium is-fullwidth is-circle' min='0' max='360' type='range'>
 			</div>
-
 		</div>
 	</main>
-
 	<footer class='has-text-right' style='display: none;'>
-			<button id='logoutBtn' class="button is-info">
-				<span class="icon"><i class="fas fa-user"></i></span>
-				<span>Logout</span>
-			</button>
-		</footer>
-
+		<button id='logoutBtn' class="button is-info">
+		<span class="icon"><i class="fas fa-user"></i></span>
+		<span>Logout</span>
+		</button>
+	</footer>
 	<script src='https://code.jquery.com/jquery-3.3.1.min.js'></script>
-	<script src='js/app.js'></script>
-	<script>var auth=localStorage.getItem('lifxAuthKey');if(!auth){window.location.href='login'}else{console.log(auth);startApp(auth)}</script>
+	<script src='js/app.min.js'></script>
+	<script>var auth=localStorage.getItem('lifxAuthKey');if(!auth){window.location.href='login'}else{startApp(auth)}</script>
 </body>
 </html>

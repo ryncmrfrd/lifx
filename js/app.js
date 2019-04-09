@@ -1,9 +1,11 @@
 /*
-      Written by Ryan Comerford. Believe it or not, this 
-    is what I do for fun. Find me at https://ryncmrfrd.me.
+    Written by https://ryncmrfrd.me.
+    Documented script of https://github.com/ryncmrfrd/lifx/blob/master/js/app.min.js
 */
 
-//just to make my life easy
+/*
+    MY OWN JQUERY AJAX "API"
+*/
 var lifx = {
     auth: '',
     //start the api and get lifx.auth to your key
@@ -83,12 +85,13 @@ var lifx = {
     callback: function(callback,params){if(arguments.length==0){console.error('Incorrect function parameters')}else if(!params){callback()}else{callback(params)}}
 }
 
-//global variables
-var selector,
-    currentLight_HadColor;
-
+/*
+    ON APP START
+*/
+var selector, currentLight_HadColor;
 function startApp(auth){
     $('#toggle i').hide();
+
     lifx.start(auth, function(data){
 
         //
@@ -109,33 +112,14 @@ function startApp(auth){
         });
         selector = $('#select').val();
 
-
-        if($("#select")[0].selectedIndex <= 0){
+        if(!selector){
+            alert('oof')
             $('#noLights').fadeIn();
             $('#toggle').prop( "disabled", true );
         }
 
-        updateLights('',data)
-
-        $('footer, main').fadeIn();
-
-    });
-}
-
-function updateLights(sel,data){
-
-
-    if(data&&!sel){
-        console.log('ugh')
-        lifx.get('id:'+sel,update(data));
-    }
-    else{
-        console.log('ugh')
-        update()
-    }
-
-    function update(){
-        $('i').hide();
+        //START lightupdating
+        $('#toggle i').hide();
         //if first light is already on
         if(data[0].power=='on'){
             $('#on').show();
@@ -150,32 +134,77 @@ function updateLights(sel,data){
         currentLight_HadColor = data[0].product.capabilities.has_color;
 
         $('#kelvin').val(data[0].color.kelvin);
-        $('#color').val(data[0].color.kelvin);
+        $('#color').val(data[0].color.hue);
 
 
         if(currentLight_HadColor){
-            $('#color, #kelvin').fadeIn();
+            $('#kelvin').fadeIn();
+            $('#color').css('opacity', '1')
         }
         else{
             $('#kelvin').fadeIn();
-            $('#color').fadeOut();
+            $('#color').css('opacity', '0')
         }
 
         //set current background color
-        var rgb = colorTemperature2rgb(data[0].color.kelvin);
-        $('body').css('background','rgb('+rgb.red+','+rgb.green+','+rgb.blue+')');
-    }
-}
+        if(data[0].color.saturation==1){
+            $('body').css('background','hsla('+data[0].color.hue+', 100%, 50%, 1)');
+        }
+        else{
+            var rgb = colorTemperature2rgb(data[0].color.kelvin);
+            $('body').css('background','rgb('+rgb.red+','+rgb.green+','+rgb.blue+')');
+        }
+        //END lightupdating
 
+        $('footer, main').fadeIn();
+
+    });
+}
 
 /*
     EVENT LISTENERS
 */
-
 //on change selector
 $('#select').change(function() {
     selector = $('#select').val();
-    updateLights($('#select').val());
+    console.log(selector)
+    lifx.get(selector, function(data){
+        $('#toggle i').hide();
+        //if first light is already on
+        if(data[0].power=='on'){
+            $('#on').show();
+            $('#off').hide();
+        }
+        else{
+            $('#off').show();
+            $('#on').hide();
+        }
+
+        //if first light has color capabilities
+        currentLight_HadColor = data[0].product.capabilities.has_color;
+
+        $('#kelvin').val(data[0].color.kelvin);
+        $('#color').val(data[0].color.hue);
+
+
+        if(currentLight_HadColor){
+            $('#kelvin').fadeIn();
+            $('#color').css('opacity', '1')
+        }
+        else{
+            $('#kelvin').fadeIn();
+            $('#color').css('opacity', '0')
+        }
+
+        //set current background color
+        if(data[0].color.saturation==1){
+            $('body').css('background','hsla('+data[0].color.hue+', 100%, 50%, 1)');
+        }
+        else{
+            var rgb = colorTemperature2rgb(data[0].color.kelvin);
+            $('body').css('background','rgb('+rgb.red+','+rgb.green+','+rgb.blue+')');
+        }
+    })
 });
 
 //on click toggle button
@@ -204,15 +233,20 @@ $('#kelvin').change(function() {
 
 //on change color slider
 $('#color').change(function() {
-    console.log('changed color')
+    console.log(
+        'hue:'+$('#color').val()
+    )
+    var dataColor = {
+        'color': 'hue:'+$('#color').val()+' saturation:1.0 brightness:1'
+    }
+    lifx.changeState(selector, dataColor, function(){
+        $('body').css('background','hsla('+$('#color').val()+', 100%, 50%, 1)');
+    })
 });
 
-//show color value while dragging slider
-$(document).on('input', '#kelvin', function() {
-    var lifxval = $('#kelvin').val(), klvnrgb = colorTemperature2rgb(lifxval);
-    $('body').css('background','rgb('+klvnrgb.red+','+klvnrgb.green+','+klvnrgb.blue+')');
-});
-
+/*
+    COPY PASTED INTENET SCRIPT 
+*/
 function colorTemperature2rgb(kelvin) {
     var temperature = kelvin / 100.0;
     var red, green, blue;
@@ -249,7 +283,7 @@ function colorTemperature2rgb(kelvin) {
     }
     return {
         red: Math.round(red),
-        blue: Math.round(blue),
-        green: Math.round(green)
+        green: Math.round(green),
+        blue: Math.round(blue)
     }
 }
