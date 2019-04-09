@@ -7,13 +7,11 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
 	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
 </head>
-<style>.lifx{position: relative;top: 3px;display: inline-block;background: url(img/lifx.svg) top/cover;background-repeat: no-repeat;width: 2.9em;height: 1em;}#builtBy{position: absolute; bottom: 15px;}</style>
+<style>.lifx{position:relative;top:3px;display:inline-block;background:url(img/lifx.svg) top/cover;background-repeat:no-repeat;width:2.9em;height:1em}#builtBy{margin:0;position:absolute;bottom:0;left:50%;transform:translate(-50%,-50%)}</style>
 <body class='columns is-mobile is-centered is-vcentered' style='height: 80vh'>
     <div class="column is-three-quarters-mobile is-half-tablet is-one-third-desktop is-one-quarter-widescreen"> 
         <h1 class="title is-size-1 is-spaced">Login</h1>
-        <p class="subtitle is-size-6">
-            Unfortunately, <span class='lifx'></span> won't let me use OAuth, so you have manually generate an auth token. If you're confused, take a look at <a target='_blank' href='https://github.com/ryncmrfrd/lifx#use'>the readme</a>.
-        </p>
+        <p class="subtitle is-size-6">Unfortunately, <span class='lifx'></span> won't let me use OAuth, so you have manually generate an auth token. If you're confused, take a look at <a target='_blank' href='https://github.com/ryncmrfrd/lifx#use'>the readme</a>.</p>
         <form id='form' class="field is-grouped">
             <div class="control">
                 <div class="field">
@@ -21,16 +19,14 @@
                       <input id='appToken' class="input" type="text" placeholder="Auth Token">
                       <span class="icon is-small is-left"><i class="fas fa-key"></i></span>
                     </div>
-								</div>
-								<p id='help' class="help is-danger" style='opacity: 0;'>Enter a code before continuing</p>
+				</div>
+				<p id='help' class="help is-danger" style='opacity: 0;'>Enter a code before continuing</p>
             </div>
             <div class="control">
               <button class="button is-link" type='submit'>Go</button>
             </div> 
         </form>
-        <a href='https://ryncmrfrd.me' target='_blank' id='builtBy' class='button has-text-link'>
-            Build by Ryan Comerford
-        </a>
+        <a href='https://ryncmrfrd.me' target='_blank' id='builtBy' class='button has-text-link'>Build by Ryan Comerford</a>
     </div>
 	<script>var authCode=localStorage.getItem('lifxAuthKey');if(authCode>1){window.location.href='/'}else{document.getElementById("form").addEventListener('submit',function(e){e.preventDefault();var val=document.getElementById('appToken').value;if(!val){document.getElementById('help').style.opacity=1;}else{localStorage.setItem('lifxAuthKey',val);window.location.href='/'}})}</script>
 </body>
