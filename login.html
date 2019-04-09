@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
 	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
 </head>
-<style>.lifx{position: relative;top: 3px;display: inline-block;background: url(img/lifx.svg) top/cover;background-repeat: no-repeat;width: 2.9em;height: 1em;}</style>
+<style>.lifx{position: relative;top: 3px;display: inline-block;background: url(img/lifx.svg) top/cover;background-repeat: no-repeat;width: 2.9em;height: 1em;}#builtBy{position: absolute; bottom: 15px;}</style>
 <body class='columns is-mobile is-centered is-vcentered' style='height: 80vh'>
     <div class="column is-three-quarters-mobile is-half-tablet is-one-third-desktop is-one-quarter-widescreen"> 
         <h1 class="title is-size-1 is-spaced">Login</h1>
@@ -28,6 +28,9 @@
               <button class="button is-link" type='submit'>Go</button>
             </div> 
         </form>
+        <a href='https://ryncmrfrd.me' target='_blank' id='builtBy' class='button has-text-link'>
+            Build by Ryan Comerford
+        </a>
     </div>
 	<script>var authCode=localStorage.getItem('lifxAuthKey');if(authCode>1){window.location.href='/'}else{document.getElementById("form").addEventListener('submit',function(e){e.preventDefault();var val=document.getElementById('appToken').value;if(!val){document.getElementById('help').style.opacity=1;}else{localStorage.setItem('lifxAuthKey',val);window.location.href='/'}})}</script>
 </body>
